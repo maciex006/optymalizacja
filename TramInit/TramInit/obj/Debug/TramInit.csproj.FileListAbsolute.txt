@@ -1,0 +1,6 @@
+D:\VisualStudio\Projects\TramInit\TramInit\bin\Debug\TramInit.exe.config
+D:\VisualStudio\Projects\TramInit\TramInit\obj\Debug\TramInit.csprojResolveAssemblyReference.cache
+D:\VisualStudio\Projects\TramInit\TramInit\bin\Debug\TramInit.exe
+D:\VisualStudio\Projects\TramInit\TramInit\bin\Debug\TramInit.pdb
+D:\VisualStudio\Projects\TramInit\TramInit\obj\Debug\TramInit.exe
+D:\VisualStudio\Projects\TramInit\TramInit\obj\Debug\TramInit.pdb
