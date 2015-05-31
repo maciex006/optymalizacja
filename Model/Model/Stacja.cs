@@ -39,12 +39,12 @@ namespace Model
 
             Ruch = new Dictionary<Stacja, MacierzRuchu>();
 
-            int randomLiczbaKrawedzi = r.Next(0, MAX_LICZ_KRAW - IncydentneKrawedzie.Count) + 1;
+            int randomLiczbaKrawedzi = r.Next(1, MAX_LICZ_KRAW - IncydentneKrawedzie.Count + 1);
 
             for (int i = 0; i < randomLiczbaKrawedzi; i++)
             {
                 int ranNum = r.Next(stacje.Count);
-                while (IncydentneKrawedzie.Any(x => x.Id == ranNum) || st.Id == ranNum)
+                while (IncydentneKrawedzie.Any(x => x.Stacja1.Id == ranNum || x.Stacja2.Id == ranNum) || st.Id == ranNum)
                 {
                     ranNum = r.Next(stacje.Count);
                 }
@@ -52,7 +52,12 @@ namespace Model
                 // Tymczasowa generacja Id - zmienić później. Podobnie z losowaniem kosztu.
                 Stacja s = stacje.First(x => x.Id == ranNum);
                 krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(15)));
-                //Ruch.Add(s, new MacierzRuchu(r, t));
+            }
+
+            foreach (Krawedz k in IncydentneKrawedzie)
+            {
+                Stacja s = k.Stacja1.Id != Id ? k.Stacja1 : k.Stacja2;
+                Ruch.Add(s, new MacierzRuchu(r, t));
             }
         }
 
@@ -88,6 +93,11 @@ namespace Model
             return sasiedzi;
         }
 
+        public Dictionary<Stacja, MacierzRuchu> GetRuch()
+        {
+            return Ruch;
+        }
+
         public override string ToString()
         {
             return Id.ToString();
@@ -109,6 +119,19 @@ namespace Model
             {
                 Ruch[i] = r.Next(10);
             }
+        }
+
+        public override string ToString()
+        {
+            string buf = "";
+
+            for(int i = 0; i < Ruch.Length; i++)
+            {
+                buf = i > 0 ? buf + "," : buf + "[";
+                buf = buf + Ruch[i];
+            }
+
+            return buf + "]";
         }
     }
 }

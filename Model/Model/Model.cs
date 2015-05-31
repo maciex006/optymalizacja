@@ -35,14 +35,34 @@ namespace Model
             }
         }
 
+        /// <summary>
+        ///     Metoda zwracajáca liste krawedzi incydentnych ze stacja o podanym id.
+        /// </summary>
+        /// <param name="id"> Identyfikator stacji w modelu. </param>
+        /// <returns> Lista krawedzi. </returns>
         public List<Krawedz> GetIncydentneKrawedzie(int id)
         {
             return Stacje[id].GetIncydentneKrawedzie();
         }
 
+        /// <summary>
+        ///     Metoda zwracajáca liste stacji sasiednich dla stacji o podanym id.
+        /// </summary>
+        /// <param name="id"> Identyfikator stacji w modelu. </param>
+        /// <returns> Lista stacji. </returns>
         public List<Stacja> GetSasiednieStacje(int id)
         {
            return Stacje[id].GetSasiednieStacje();
+        }
+
+        /// <summary>
+        ///     Metoda zwracajáca slownik przechowujacy informacje o ruchu na danym przystanku.
+        /// </summary>
+        /// <param name="id"> Identyfikator stacji w modelu. </param>
+        /// <returns> Slownik przechowujacy informacje o ruchu. </returns>
+        public Dictionary<Stacja, MacierzRuchu> GetRuch(int id)
+        {
+            return Stacje[id].GetRuch();
         }
     }
 }

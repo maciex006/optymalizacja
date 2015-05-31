@@ -18,6 +18,8 @@ namespace Model
 
             List<Krawedz> kr = m.GetIncydentneKrawedzie(2);
             List<Stacja> st = m.GetSasiednieStacje(2);
+            Dictionary<Stacja,MacierzRuchu> ruch = m.GetRuch(2);
+
             foreach (Krawedz k in kr)
             {
                 Console.WriteLine(k);
@@ -27,6 +29,8 @@ namespace Model
             {
                 Console.WriteLine(s);
             }
+
+             Console.WriteLine("{" + string.Join(",", ruch.Select(x => x.Key.ToString() + "=" + x.Value.ToString()).ToArray()) + "}");
 
             Console.ReadKey();
         }
