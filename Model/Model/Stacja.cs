@@ -15,6 +15,7 @@ namespace Model
         private List<Krawedz> IncydentneKrawedzie = new List<Krawedz>();
         private Dictionary<Stacja, MacierzRuchu> Ruch;
         private Random Random;
+        public bool IsPetla { get; set; }
 
         /// <summary>
         ///     Konstruktor stacji.
@@ -32,6 +33,7 @@ namespace Model
         /// <param name="st"> Stacja aktualnie uzupelaniana danymi.</param>
         /// <param name="stacje"> List stacji w modelu. </param>
         /// <param name="r"> Random r. </param>
+        /// <param name="krawedzie"> Lista krawédzi w modelu.</param>
         public void Generuj(int t, Stacja st, List<Stacja> stacje, List<Krawedz> krawedzie, Random r)
         {
             this.InterwalyT = t;
