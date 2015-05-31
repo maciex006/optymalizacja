@@ -26,10 +26,14 @@ namespace TramInit
             {
                 for (int j = 0; j < stationsNumber; ++j)
                 {
-                    if (i != j)
+                    if (i < j)
                     {
                         costMatrix[i, j] = random.Next(0, 2);
                         costMatrix[i, j] = costMatrix[i, j] * random.Next(1, MAX_DISTANCE + 1);
+                    }
+                    else if (i > j)
+                    {
+                        costMatrix[i, j] = costMatrix[j, i];
                     }
                 }
             }
@@ -110,7 +114,7 @@ namespace TramInit
         private void GenerateTraffic(int stationsNumber, int intervalsNumber)
         {
             trafficMatrix = new int[stationsNumber, intervalsNumber];
-            for (int i = 0; i < stationsNumber; ++i)
+            for (int i = 0; i < stationsNumber-1; ++i)
             {
                 for (int j = 0; j < intervalsNumber; ++j)
                 {

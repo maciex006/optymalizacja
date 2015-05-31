@@ -10,8 +10,9 @@ namespace TramInit
     {
         static void Main(string[] args)
         {
+            //liczba przystanków.
             int n = 10;
-            Model model = new Model(n, 5);
+            Model model = new Model(n);
             Console.WriteLine(model.CostMatrixToString());
             for (int i = 0; i < n; ++i)
             {
