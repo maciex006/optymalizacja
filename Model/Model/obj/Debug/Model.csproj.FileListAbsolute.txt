@@ -1,0 +1,6 @@
+D:\GitHub\optymalizacja\Model\Model\bin\Debug\Model.exe.config
+D:\GitHub\optymalizacja\Model\Model\bin\Debug\Model.exe
+D:\GitHub\optymalizacja\Model\Model\bin\Debug\Model.pdb
+D:\GitHub\optymalizacja\Model\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+D:\GitHub\optymalizacja\Model\Model\obj\Debug\Model.exe
+D:\GitHub\optymalizacja\Model\Model\obj\Debug\Model.pdb
