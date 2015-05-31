@@ -10,7 +10,7 @@ namespace Model
     {
         private const int MAX_LICZ_KRAW = 4;
 
-        private int Id;
+        public int Id { get; private set; }
         private int InterwalyT;
         private List<Krawedz> IncydentneKrawedzie = new List<Krawedz>();
         private Dictionary<Stacja, MacierzRuchu> Ruch;
@@ -39,7 +39,9 @@ namespace Model
 
             Ruch = new Dictionary<Stacja, MacierzRuchu>();
 
-            for (int i = 0; i < MAX_LICZ_KRAW - IncydentneKrawedzie.Count; i++)
+            int randomLiczbaKrawedzi = r.Next(0, MAX_LICZ_KRAW - IncydentneKrawedzie.Count) + 1;
+
+            for (int i = 0; i < randomLiczbaKrawedzi; i++)
             {
                 int ranNum = r.Next(stacje.Count);
                 while (IncydentneKrawedzie.Any(x => x.Id == ranNum) || st.Id == ranNum)
@@ -50,7 +52,7 @@ namespace Model
                 // Tymczasowa generacja Id - zmienić później. Podobnie z losowaniem kosztu.
                 Stacja s = stacje.First(x => x.Id == ranNum);
                 krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(15)));
-                Ruch.Add(s, new MacierzRuchu(r, t));
+                //Ruch.Add(s, new MacierzRuchu(r, t));
             }
         }
 
@@ -61,6 +63,34 @@ namespace Model
         public void AddKrawedz(Krawedz kr)
         {
             IncydentneKrawedzie.Add(kr);
+        }
+
+        public List<Krawedz> GetIncydentneKrawedzie()
+        {
+            return IncydentneKrawedzie;
+        }
+
+        public List<Stacja> GetSasiednieStacje()
+        {
+            List<Stacja> sasiedzi = new List<Stacja>();
+            foreach(Krawedz k in IncydentneKrawedzie)
+            {
+                if(k.Stacja1.Id != Id)
+                {
+                   sasiedzi.Add(k.Stacja1);
+                }
+                else
+                {
+                    sasiedzi.Add(k.Stacja2);
+                }
+            }
+
+            return sasiedzi;
+        }
+
+        public override string ToString()
+        {
+            return Id.ToString();
         }
     }
 

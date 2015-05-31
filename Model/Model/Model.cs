@@ -34,5 +34,15 @@ namespace Model
                 st.Generuj(t, st, Stacje, Krawedzie, Random);
             }
         }
+
+        public List<Krawedz> GetIncydentneKrawedzie(int id)
+        {
+            return Stacje[id].GetIncydentneKrawedzie();
+        }
+
+        public List<Stacja> GetSasiednieStacje(int id)
+        {
+           return Stacje[id].GetSasiednieStacje();
+        }
     }
 }

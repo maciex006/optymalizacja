@@ -10,8 +10,8 @@ namespace Model
     {
         public int Id;
         private int Koszt;
-        private Stacja Stacja1;
-        private Stacja Stacja2;
+        public Stacja Stacja1 { get; private set; }
+        public Stacja Stacja2 { get; private set; }
 
         public Krawedz(int id, Stacja st1, Stacja st2, int koszt)
         {
@@ -21,6 +21,11 @@ namespace Model
             this.Stacja1 = st1;
             this.Stacja2 = st2;
             this.Koszt = koszt;
+        }
+
+        public override string ToString()
+        {
+            return Stacja1.Id + "-" + Koszt + "-" + Stacja2.Id;
         }
     }
 }
