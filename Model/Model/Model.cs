@@ -96,4 +96,8 @@ namespace Model
             return Stacje[id].GetRuch();
         }
     }
+
+    public interface ElementModelu
+    {
+    }
 }

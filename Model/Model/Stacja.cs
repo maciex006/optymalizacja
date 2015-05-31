@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Stacja
+    public class Stacja : ElementModelu
     {
         private const int MAX_LICZ_KRAW = 4;
 

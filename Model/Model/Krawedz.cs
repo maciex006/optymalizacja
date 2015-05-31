@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Krawedz
+    public class Krawedz : ElementModelu
     {
         public int Id;
         private int Koszt;
