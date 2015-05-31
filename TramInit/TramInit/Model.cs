@@ -109,16 +109,24 @@ namespace TramInit
         /// <summary>
         /// Metoda generująca macierz reprezentującą ruch pasażerów na przystanku.
         /// </summary>
+        /// <param name="idStacji"> Identyfikator stacji. </param>
         /// <param name="stationsNumber">Liczba stacji w modelu.</param>
         /// <param name="intervalsNumber">Liczba interwałów czasowych w modelu.</param>
-        private void GenerateTraffic(int stationsNumber, int intervalsNumber)
+        private void GenerateTraffic(int idStacji, int stationsNumber, int intervalsNumber)
         {
             trafficMatrix = new int[stationsNumber, intervalsNumber];
-            for (int i = 0; i < stationsNumber-1; ++i)
+            for (int i = 0; i < stationsNumber; ++i)
             {
                 for (int j = 0; j < intervalsNumber; ++j)
                 {
-                    trafficMatrix[i, j] = random.Next(0, PASSENGER_MAX_NUMBER);
+                    if (i == id)
+                    {
+                        trafficMatrix[i, j] = -1;
+                    }
+                    else
+                    {
+                        trafficMatrix[i, j] = random.Next(0, PASSENGER_MAX_NUMBER);
+                    }
                 }
             }
         }
@@ -140,7 +148,7 @@ namespace TramInit
             this.random = random;
             this.id = id;
             this.name = name;
-            GenerateTraffic(stationsNumber, intervalsNumer);
+            GenerateTraffic(id, stationsNumber, intervalsNumer);
         }
 
 
