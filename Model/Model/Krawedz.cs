@@ -8,7 +8,7 @@ namespace Model
 {
     public class Krawedz : ElementModelu
     {
-        public int Id;
+        public int Id { get; private set; }
         private int Koszt;
         public Stacja Stacja1 { get; private set; }
         public Stacja Stacja2 { get; private set; }
@@ -21,6 +21,14 @@ namespace Model
             this.Stacja1 = st1;
             this.Stacja2 = st2;
             this.Koszt = koszt;
+        }
+
+        public List<ElementModelu> GetIncydentneElementy()
+        {
+            List<ElementModelu> sasiedzi = new List<ElementModelu>();
+            sasiedzi.Add(Stacja1);
+            sasiedzi.Add(Stacja2);
+            return sasiedzi;
         }
 
         public override string ToString()

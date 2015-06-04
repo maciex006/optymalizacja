@@ -24,6 +24,7 @@ namespace Model
         public Stacja(int id)
         {
             this.Id = id;
+            Ruch = new Dictionary<Stacja, MacierzRuchu>();
         }
 
         /// <summary>
@@ -37,11 +38,13 @@ namespace Model
         public void Generuj(int t, Stacja st, List<Stacja> stacje, List<Krawedz> krawedzie, Random r)
         {
             this.InterwalyT = t;
-            this.Random = r;
+            this.Random = r;      
+            int randomLiczbaKrawedzi = 0;
 
-            Ruch = new Dictionary<Stacja, MacierzRuchu>();
-
-            int randomLiczbaKrawedzi = r.Next(1, MAX_LICZ_KRAW - IncydentneKrawedzie.Count + 1);
+            if (IncydentneKrawedzie.Count < 4)
+            {
+                randomLiczbaKrawedzi = r.Next(0, MAX_LICZ_KRAW - IncydentneKrawedzie.Count) + 1;
+            }
 
             for (int i = 0; i < randomLiczbaKrawedzi; i++)
             {
@@ -53,13 +56,23 @@ namespace Model
                 
                 // Tymczasowa generacja Id - zmienić później. Podobnie z losowaniem kosztu.
                 Stacja s = stacje.First(x => x.Id == ranNum);
-                krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(15)));
+                if (s.GetIncydentneKrawedzie().Count() < 4)
+                {
+                    krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(15)));
+                }
             }
 
             foreach (Krawedz k in IncydentneKrawedzie)
             {
                 Stacja s = k.Stacja1.Id != Id ? k.Stacja1 : k.Stacja2;
-                Ruch.Add(s, new MacierzRuchu(r, t));
+                if (!Ruch.ContainsKey(s))
+                {
+                    Ruch.Add(s, new MacierzRuchu(r, t));
+                }
+                if (!s.Ruch.ContainsKey(this))
+                {
+                    s.Ruch.Add(this, new MacierzRuchu(r, t));
+                }
             }
         }
 
@@ -85,6 +98,24 @@ namespace Model
                 if(k.Stacja1.Id != Id)
                 {
                    sasiedzi.Add(k.Stacja1);
+                }
+                else
+                {
+                    sasiedzi.Add(k.Stacja2);
+                }
+            }
+
+            return sasiedzi;
+        }
+
+        public List<ElementModelu> GetIncydentneElementy()
+        {
+            List<ElementModelu> sasiedzi = new List<ElementModelu>();
+            foreach (Krawedz k in IncydentneKrawedzie)
+            {
+                if (k.Stacja1.Id != Id)
+                {
+                    sasiedzi.Add(k.Stacja1);
                 }
                 else
                 {

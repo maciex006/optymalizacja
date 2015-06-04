@@ -99,5 +99,7 @@ namespace Model
 
     public interface ElementModelu
     {
+        int Id { get; }
+        List<ElementModelu> GetIncydentneElementy();
     }
 }
