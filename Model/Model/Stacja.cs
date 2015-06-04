@@ -15,7 +15,16 @@ namespace Model
         private List<Krawedz> IncydentneKrawedzie = new List<Krawedz>();
         private Dictionary<Stacja, MacierzRuchu> Ruch;
         private Random Random;
+        private List<int> prawdLiczKraw = new List<int>();
         public bool IsPetla { get; set; }
+
+        public string StringFormatDlaLinii
+        {
+            get
+            {
+                return this.ToString();
+            }
+        }
 
         /// <summary>
         ///     Konstruktor stacji.
@@ -41,9 +50,9 @@ namespace Model
             this.Random = r;      
             int randomLiczbaKrawedzi = 0;
 
-            if (IncydentneKrawedzie.Count < 4)
+            if (IncydentneKrawedzie.Count < MAX_LICZ_KRAW)
             {
-                randomLiczbaKrawedzi = r.Next(0, MAX_LICZ_KRAW - IncydentneKrawedzie.Count) + 1;
+                randomLiczbaKrawedzi = LosujLiczbeKraw(IncydentneKrawedzie.Count);
             }
 
             for (int i = 0; i < randomLiczbaKrawedzi; i++)
@@ -56,7 +65,7 @@ namespace Model
                 
                 // Tymczasowa generacja Id - zmienić później. Podobnie z losowaniem kosztu.
                 Stacja s = stacje.First(x => x.Id == ranNum);
-                if (s.GetIncydentneKrawedzie().Count() < 4)
+                if (s.GetIncydentneKrawedzie().Count() < MAX_LICZ_KRAW)
                 {
                     krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(15)));
                 }
@@ -134,6 +143,25 @@ namespace Model
         public override string ToString()
         {
             return Id.ToString();
+        }
+
+        private int LosujLiczbeKraw(int liczbKrawIstniejacych)
+        {
+            for (int i = MAX_LICZ_KRAW - liczbKrawIstniejacych; i > 0; i--)
+            {
+                if (NextWithProbability(1000 / (i + liczbKrawIstniejacych)))
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+        private bool NextWithProbability(int prawd)
+        {
+            int x = Random.Next(1000);
+            return (x <= prawd);
         }
     }
 

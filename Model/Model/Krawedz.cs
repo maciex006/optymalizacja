@@ -13,6 +13,14 @@ namespace Model
         public Stacja Stacja1 { get; private set; }
         public Stacja Stacja2 { get; private set; }
 
+        public string StringFormatDlaLinii
+        {
+            get
+            {
+                return "-{" + Koszt + "}-";
+            }
+        }
+
         public Krawedz(int id, Stacja st1, Stacja st2, int koszt)
         {
             st1.AddKrawedz(this);
@@ -33,7 +41,7 @@ namespace Model
 
         public override string ToString()
         {
-            return Stacja1.Id + "-" + Koszt + "-" + Stacja2.Id;
+            return Stacja1.Id + "-{" + Koszt + "}-" + Stacja2.Id;
         }
     }
 }

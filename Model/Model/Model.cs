@@ -30,8 +30,23 @@ namespace Model
                 Stacje.Add(new Stacja(i));
             }
 
+            foreach (Stacja st in Stacje)
+            {
+                st.Generuj(t, st, Stacje, Krawedzie, Random);
+            }
 
-            for (int i = 0; i < p; i++)
+            int petle = p;
+
+            foreach (Stacja st in Stacje)
+            {
+                if (st.GetIncydentneKrawedzie().Count == 1)
+                {
+                    st.IsPetla = true;
+                    petle--;
+                }
+            }
+
+            for (int i = 0; i < petle; i++)
             {
                 int ranNum = Random.Next(Stacje.Count);
                 while (Stacje.First(x => x.Id == ranNum).IsPetla)
@@ -42,10 +57,6 @@ namespace Model
                 Stacje[ranNum].IsPetla = true;
             }
 
-            foreach (Stacja st in Stacje)
-            {
-                st.Generuj(t, st, Stacje, Krawedzie, Random);
-            }
         }
 
         /// <summary>
@@ -101,5 +112,6 @@ namespace Model
     {
         int Id { get; }
         List<ElementModelu> GetIncydentneElementy();
+        string StringFormatDlaLinii { get; }
     }
 }

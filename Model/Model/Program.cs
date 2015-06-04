@@ -10,9 +10,9 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            int n = 10; // liczba przystanków
-            int t = 5; // liczba interwalów czasowych.
-            int p = 4; // liczba petli.
+            int n = 100; // liczba przystanków
+            int t = 1; // liczba interwalów czasowych.
+            int p = 15; // liczba petli.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);
@@ -72,6 +72,18 @@ namespace Model
                             }
                             break;
 
+                        case "newline":
+                            if (param == null || param.Count() == 0)
+                            {
+                                Linia T = LosujLinie(m, r);
+                                WriteLinia(T);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Błąd skladni");
+                            }
+                            break;
+
                         case "exit":
                             Console.WriteLine("Wychodzę");
                             break;
@@ -86,11 +98,18 @@ namespace Model
                     Console.WriteLine("Błąd skladni");
                 }   
             }  
+        }
 
-            Linia T1 = new Linia(m, r);
+        private static Linia LosujLinie(Model m, Random r)
+        {
+            return new Linia(m, r);
+        }
+
+        private static void WriteLinia(Linia T)
+        {
             Console.WriteLine("\nWylosowana linia:");
-            Console.WriteLine(T1);
-            Console.ReadKey();
+            Console.WriteLine(T.ToStringShortFormat());
+            Console.WriteLine();
         }
 
         private static void WritePetle(Model m)
