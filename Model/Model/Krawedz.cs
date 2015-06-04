@@ -21,6 +21,14 @@ namespace Model
             }
         }
 
+        public string StringFormatDlaPolaczen
+        {
+            get
+            {
+                return Stacja1.Id.ToString() + Stacja2.Id.ToString();
+            }
+        }
+
         public Krawedz(int id, Stacja st1, Stacja st2, int koszt)
         {
             st1.AddKrawedz(this);
@@ -42,6 +50,31 @@ namespace Model
         public override string ToString()
         {
             return Stacja1.Id + "-{" + Koszt + "}-" + Stacja2.Id;
+        }
+    }
+
+    public class KrawedzSieci
+    {
+        public Krawedz Krawedz { get; private set; }
+        public List<int> IdLinii { get; private set; }
+
+        public KrawedzSieci(List<int> idLinii, Krawedz k)
+        {
+            this.IdLinii = idLinii;
+            this.Krawedz = k;
+        }
+    }
+
+    public class Polaczenie
+    {
+        public int[] Id { get; private set; }
+        public List<KrawedzSieci> Krawedzie { get; private set; }
+
+
+        public Polaczenie(int[] id, List<KrawedzSieci> k)
+        {
+            this.Id = id;
+            this.Krawedzie = k;
         }
     }
 }

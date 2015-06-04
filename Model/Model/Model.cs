@@ -89,6 +89,15 @@ namespace Model
         }
 
         /// <summary>
+        ///     Metoda zwracajaca stację o podanym id.
+        /// </summary>
+        /// <returns> Lista stacji. </returns>
+        public Stacja GetStacja(int Id)
+        {
+            return Stacje.First(x => x.Id == Id);
+        }
+
+        /// <summary>
         ///     Metoda zwracajaca liste stacji w modelu.
         /// </summary>
         /// <returns> Lista stacji. </returns>

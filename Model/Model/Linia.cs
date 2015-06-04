@@ -8,20 +8,18 @@ namespace Model
 {
     class Linia
     {
+        public int Id;
         private Model Model;
         private List<ElementModelu> Line = new List<ElementModelu>();
         private Random Random;
+        public double Koszt { get; set; }
 
-        public Linia(Model m, Random r)
+        public Linia(int id, Model m, Random r)
         {
+            this.Id = id;
             this.Model = m;
             this.Random = r;
             GenerujNowaLinie();
-        }
-
-        public double FunkcjaKosztu()
-        {
-            return 0;
         }
 
         private void GenerujNowaLinie()
@@ -45,6 +43,17 @@ namespace Model
                 Line.Add(wylosowanaStacja);
                 i = i + 2;
             }
+        }
+
+        public List<Krawedz> GetKrawedzie()
+        {
+            List<Krawedz> krawedzie = new List<Krawedz>();
+            foreach(ElementModelu k in Line.Where(x => x.GetType() == typeof(Krawedz)))
+            {
+                krawedzie.Add((Krawedz)k);
+            }
+
+            return krawedzie;
         }
 
         public override string ToString()

@@ -10,9 +10,9 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            int n = 100; // liczba przystanków
+            int n = 10; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
-            int p = 15; // liczba petli.
+            int p = 4; // liczba petli.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);
@@ -84,6 +84,28 @@ namespace Model
                             }
                             break;
 
+                        case "newweb":
+                            if (param == null || param.Count() == 0)
+                            {
+                                Siec s = new Siec(m, r, 3);
+                                Console.WriteLine(s);
+                                // Wyk kraw.
+                                Dictionary<Krawedz, List<int>> wyk = s.GetWykorzystaneKrawedzie();
+                                Console.WriteLine();
+                                Console.WriteLine(string.Join("\n", wyk.Select(x => x.Key.ToString() + "=" +
+                                    "{" + string.Join(",", x.Value) + "}").ToArray()));
+                                List<Polaczenie> pol = s.GetWyznaczonePolaczenia();
+                                Console.WriteLine();
+                                Console.WriteLine(string.Join("\n", pol.Select(x => "[" + x.Id[0] + "," + x.Id[1] + "] = " +
+                                    "{" + string.Join(",", x.Krawedzie.Select(y => y.Krawedz.StringFormatDlaPolaczen)) + "}").ToArray()));
+                                Console.WriteLine();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Błąd skladni");
+                            }
+                            break;
+
                         case "exit":
                             Console.WriteLine("Wychodzę");
                             break;
@@ -102,7 +124,7 @@ namespace Model
 
         private static Linia LosujLinie(Model m, Random r)
         {
-            return new Linia(m, r);
+            return new Linia(0, m, r);
         }
 
         private static void WriteLinia(Linia T)
