@@ -140,7 +140,7 @@ namespace Model
                 // Tymczasowe
             }
 
-            Koszt = Linie.Sum(x => x.Koszt)/LiczbaLinii;
+            Koszt = Linie.Sum(x => x.Koszt);
         }
 
         private void WyznaczWykorzsytaneKrawedzie()

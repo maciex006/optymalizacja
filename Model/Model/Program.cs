@@ -10,10 +10,10 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            int n = 30; // liczba przystanków
+            int n = 60; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
-            int p = 6; // liczba petli.
-            int l = 4; // liczba linii.
+            int p = 16; // liczba petli.
+            int l = 10; // liczba linii.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);

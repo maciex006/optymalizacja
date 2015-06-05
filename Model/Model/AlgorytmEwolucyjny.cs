@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Model
 
         public string PrintPopulacja()
         {
-            return "{" + string.Join("\n", Populacja.OrderByDescending(x => x.Koszt).Select(x => "Osobnik " + x.Id + " ; Koszt = " + x.Koszt)) + "}";
+            return "{" + string.Join("\n", Populacja.Select(x => "Osobnik " + x.Id + " ; Koszt = " + x.Koszt)) + "}";
         }
 
         private void InitPopulacja()
@@ -46,7 +47,15 @@ namespace Model
 
         private bool Sequence()
         {
+            Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
+            using (StreamWriter sw = new StreamWriter("D:\\wykres.txt", true))
+            {
+                sw.WriteLine(Populacja[0].Koszt);
+                sw.Close();
+            }
+
             Console.WriteLine(PrintPopulacja());
+
             Console.ReadKey();
             List<Siec> temp = Selekcja();
             //Console.WriteLine( "{" + string.Join("\n", temp.OrderByDescending(x => x.Koszt).Select(x => "Osobnik " + x.Id + " ; Koszt = " + x.Koszt)) + "}");
@@ -86,7 +95,7 @@ namespace Model
 
         private List<Siec> Selekcja()
         {
-            Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
+            //Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
             List<double> prawd = new List<double>();
             
             double kosztNajgorszego = Populacja[Populacja.Count() - 1].Koszt;
