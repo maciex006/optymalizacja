@@ -10,9 +10,9 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            int n = 160; // liczba przystanków
+            int n = 30; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
-            int p = 20; // liczba petli.
+            int p = 7; // liczba petli.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);
@@ -109,7 +109,7 @@ namespace Model
                         case "newweb":
                             if (param == null || param.Count() == 0)
                             {
-                                Siec s = new Siec(m, r, 6);
+                                Siec s = new Siec(m, r, 5);
                                 Console.WriteLine(s);
                                 // Wyk kraw.
                                 Dictionary<Krawedz, List<int>> wyk = s.GetWykorzystaneKrawedzie();
@@ -121,6 +121,9 @@ namespace Model
                                 Console.WriteLine(string.Join("\n", pol.Select(x => "[" + x.Id[0] + "," + x.Id[1] + "] = " +
                                     "{" + string.Join(",", x.Krawedzie.Select(y => y.Krawedz.StringFormatDlaPolaczen)) + "}").ToArray()));
                                 Console.WriteLine();
+                                Console.WriteLine(s.PrintKoszt());
+                                Console.WriteLine();
+
                             }
                             else
                             {

@@ -29,6 +29,11 @@ namespace Model
             }
         }
 
+        public int GetKoszt()
+        {
+            return Koszt;
+        }
+
         public Krawedz(int id, Stacja st1, Stacja st2, int koszt)
         {
             st1.AddKrawedz(this);

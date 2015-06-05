@@ -14,6 +14,7 @@ namespace Model
         private int LiczbaLinii;
         private Dictionary<Krawedz, List<int>> WykorzystaneKrawedzie = new Dictionary<Krawedz, List<int>>();
         private List<Polaczenie> WyznaczonePolaczenia = new List<Polaczenie>();
+        public double Koszt { get; set; }
 
         public Siec(Model m, Random r, int liczbaLinii)
         {
@@ -33,6 +34,60 @@ namespace Model
 
             WyznaczWykorzsytaneKrawedzie();
             WyznaczPolaczenia();
+            WyznaczFunkcjeKosztu();
+        }
+
+        public string PrintKoszt()
+        {
+            return "{" + string.Join("\n", Linie.Select(x => "Koszt linii " + x.Id + " = " + x.Koszt)) + "}"
+                + "\n Koszt całkowity sieci = " + Koszt;
+        }
+
+        public void WyznaczFunkcjeKosztu()
+        {
+            if(WyznaczonePolaczenia.Count() == 0)
+            {
+                WyznaczWykorzsytaneKrawedzie();
+                WyznaczPolaczenia();
+            }
+
+            List<Stacja> stacje = Model.GetStacje();
+
+            foreach (Stacja s in stacje)
+            {
+                //.Where(x => !x.Value.CheckIfNull()).ToDictionary(x => x.Key, x => x.Value)
+                Dictionary<Stacja, MacierzRuchu> ruch = s.GetRuch();
+                foreach (Stacja cel in stacje)
+                {
+                    if (s.Id != cel.Id)
+                    {
+                        MacierzRuchu r = ruch[cel];
+
+                        if (!(r.CheckIfNull()))
+                        {
+                            int[] key = (s.Id < cel.Id ? new int[2] { s.Id, cel.Id } : new int[2] { cel.Id, s.Id });
+                            if (WyznaczonePolaczenia.Any(x => x.Id[0] == key[0] && x.Id[1] == key[1]))
+                            {
+                                Polaczenie p = WyznaczonePolaczenia.First(x => x.Id[0] == key[0] && x.Id[1] == key[1]);
+                                //Implementacja dla t = 1!
+                                double liczbaPasazerow = r.GetLiczbaPasazerow();
+                                foreach (KrawedzSieci k in p.Krawedzie)
+                                {
+                                    liczbaPasazerow = liczbaPasazerow / k.IdLinii.Count();
+                                    double x = (liczbaPasazerow / k.Krawedz.GetKoszt() - 1);
+
+                                    foreach (int i in k.IdLinii)
+                                    {
+                                        Linie[i].Koszt = Linie[i].Koszt + x;
+                                    }
+                                }
+                            }         
+                        }
+                    }
+                }
+            }
+
+            Koszt = Linie.Sum(x => x.Koszt);
         }
 
         private void WyznaczWykorzsytaneKrawedzie()

@@ -67,22 +67,33 @@ namespace Model
                 Stacja s = stacje.First(x => x.Id == ranNum);
                 if (s.GetIncydentneKrawedzie().Count() < MAX_LICZ_KRAW)
                 {
-                    krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(15)));
+                    krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(6)+2));
                 }
             }
 
-            foreach (Krawedz k in IncydentneKrawedzie)
+            foreach (Stacja s in stacje)
             {
-                Stacja s = k.Stacja1.Id != Id ? k.Stacja1 : k.Stacja2;
-                if (!Ruch.ContainsKey(s))
+                if (s.Id != this.Id)
                 {
-                    Ruch.Add(s, new MacierzRuchu(r, t));
-                }
-                if (!s.Ruch.ContainsKey(this))
-                {
-                    s.Ruch.Add(this, new MacierzRuchu(r, t));
+                    if (!Ruch.ContainsKey(s))
+                    {
+                        Ruch.Add(s, new MacierzRuchu(r, t));
+                    }
                 }
             }
+
+            //foreach (Krawedz k in IncydentneKrawedzie)
+            //{
+            //    Stacja s = k.Stacja1.Id != Id ? k.Stacja1 : k.Stacja2;
+            //    if (!Ruch.ContainsKey(s))
+            //    {
+            //        Ruch.Add(s, new MacierzRuchu(r, t));
+            //    }
+            //    if (!s.Ruch.ContainsKey(this))
+            //    {
+            //        s.Ruch.Add(this, new MacierzRuchu(r, t));
+            //    }
+            //}
         }
 
         /// <summary>
@@ -167,7 +178,7 @@ namespace Model
 
     public class MacierzRuchu
     {
-        int[] Ruch;
+        List<int> Ruch;
 
         /// <summary>
         ///     Konstruktor macierzy ruchu.
@@ -175,18 +186,29 @@ namespace Model
         /// <param name="t"> Liczba interwałów czasowych. </param>
         public MacierzRuchu(Random r, int t = 1)
         {
-            Ruch = new int[t];
+            Ruch = new List<int>();
             for (int i = 0; i < t; i++)
             {
-                Ruch[i] = r.Next(10);
+                Ruch.Add(r.Next(15));
             }
+        }
+
+        //Implementacja dla t = 1;
+        public int GetLiczbaPasazerow()
+        {
+            return Ruch[0];
+        }
+
+        public bool CheckIfNull()
+        {
+            return Ruch.Where(x => x == 0).Count() == Ruch.Count();
         }
 
         public override string ToString()
         {
             string buf = "";
 
-            for(int i = 0; i < Ruch.Length; i++)
+            for(int i = 0; i < Ruch.Count(); i++)
             {
                 buf = i > 0 ? buf + "," : buf + "[";
                 buf = buf + Ruch[i];
