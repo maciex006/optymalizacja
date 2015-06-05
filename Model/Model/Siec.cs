@@ -19,14 +19,17 @@ namespace Model
         //Tymczasowe do debugu
         public int WykorzystanePrzystanki { get; set; }
 
-        public Siec(int Id, Model m, Random r, int liczbaLinii)
+        public Siec(int Id, Model m, Random r, int liczbaLinii, bool generuj = true)
         {
             this.Id = Id;
             WykorzystanePrzystanki = 1;
             this.Model = m;
             this.Random = r;
             this.LiczbaLinii = liczbaLinii;
-            GenerujSiec();
+            if (generuj)
+            {
+                GenerujSiec();
+            }
         }
 
         public int LosujPrzeciecie()
@@ -40,10 +43,14 @@ namespace Model
             if (s1.LiczbaLinii == s2.LiczbaLinii)
             {
                 int przeciecie = s1.LosujPrzeciecie();
-                Siec s = new Siec(0, s1.Model, s1.Random, s1.LiczbaLinii);
+                Siec s = new Siec(0, s1.Model, s1.Random, s1.LiczbaLinii, generuj: false);
+
                 s.Linie = new List<Linia>();
-                s.Linie.AddRange(s1.Linie.Where(x => x.Id < przeciecie));
-                s.Linie.AddRange(s2.Linie.Where(x => x.Id >= przeciecie));
+                s.Linie.AddRange(s1.Linie.OrderByDescending(x => x.Koszt).Take(przeciecie));
+                s.Linie.AddRange(s2.Linie.OrderByDescending(x => x.Koszt).Skip(przeciecie).Take(s2.Linie.Count() - przeciecie));
+                s.WyznaczWykorzsytaneKrawedzie();
+                s.WyznaczPolaczenia();
+                s.WyznaczFunkcjeKosztu();
                 return s;
             }
             else
@@ -128,7 +135,7 @@ namespace Model
                 // Tymczasowe
             }
 
-            Koszt = Linie.Sum(x => x.Koszt);
+            Koszt = Linie.Sum(x => x.Koszt)/LiczbaLinii;
         }
 
         private void WyznaczWykorzsytaneKrawedzie()

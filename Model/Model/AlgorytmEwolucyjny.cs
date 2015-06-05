@@ -49,7 +49,7 @@ namespace Model
             Console.WriteLine(PrintPopulacja());
             Console.ReadKey();
             List<Siec> temp = Selekcja();
-            Console.WriteLine( "{" + string.Join("\n", temp.OrderByDescending(x => x.Koszt).Select(x => "Osobnik " + x.Id + " ; Koszt = " + x.Koszt)) + "}");
+            //Console.WriteLine( "{" + string.Join("\n", temp.OrderByDescending(x => x.Koszt).Select(x => "Osobnik " + x.Id + " ; Koszt = " + x.Koszt)) + "}");
             List<Siec> nowaPopulacja = Krzyzowanie(temp);
             if (nowaPopulacja != null)
             {
