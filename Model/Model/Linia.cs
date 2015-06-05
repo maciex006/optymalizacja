@@ -19,10 +19,14 @@ namespace Model
             this.Id = id;
             this.Model = m;
             this.Random = r;
-            GenerujNowaLinie();
+            bool generated = false;
+            while (!generated)
+            {
+                generated = GenerujNowaLinie();
+            }            
         }
 
-        private void GenerujNowaLinie()
+        private bool GenerujNowaLinie()
         {
             List<Stacja> petle = Model.GetPetle();
             // Losowanie pętli startowej.
@@ -33,16 +37,27 @@ namespace Model
                 // Losowanie stacji.
                 List<Stacja> sasiednieElementy = ((Stacja)Line[i]).GetSasiednieStacje();
                 Stacja wylosowanaStacja = sasiednieElementy[Random.Next(sasiednieElementy.Count)];
+                int loopGuard = 0;
                 while (Line.Contains(wylosowanaStacja))
                 {
+                    loopGuard++;
+                    if (loopGuard > 5)
+                    {
+                        Line = new List<ElementModelu>();
+                        return false;
+                    }
+
                     wylosowanaStacja = sasiednieElementy[Random.Next(sasiednieElementy.Count)];
                 }
+
                 Krawedz wylosowanaKrawedz = wylosowanaStacja.GetIncydentneKrawedzie()
                     .Where(x => x.Stacja1.Id == Line[i].Id || x.Stacja2.Id == Line[i].Id).First();
                 Line.Add(wylosowanaKrawedz);
                 Line.Add(wylosowanaStacja);
                 i = i + 2;
             }
+
+            return true;
         }
 
         public List<Krawedz> GetKrawedzie()

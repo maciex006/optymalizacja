@@ -59,6 +59,16 @@ namespace Model
 
         }
 
+        public int CountStacje(int liczbaKrawedziIncydentnych)
+        {
+            return Stacje.Where(x => x.GetIncydentneKrawedzie().Count() == liczbaKrawedziIncydentnych).Count();
+        }
+
+        public int CountPetle(int liczbaKrawedziIncydentnych)
+        {
+            return Stacje.Where(x => x.GetIncydentneKrawedzie().Count() == liczbaKrawedziIncydentnych && x.IsPetla).Count();
+        }
+
         /// <summary>
         ///     Metoda zwracajáca liste krawedzi incydentnych ze stacja o podanym id.
         /// </summary>

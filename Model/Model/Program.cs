@@ -10,9 +10,9 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            int n = 10; // liczba przystanków
+            int n = 160; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
-            int p = 4; // liczba petli.
+            int p = 20; // liczba petli.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);
@@ -84,10 +84,32 @@ namespace Model
                             }
                             break;
 
+                        case "cntk":
+                            if (param != null && param.Count() == 1)
+                            {
+                                Console.WriteLine("Liczba stacji o krawędziach " + param[0] + " = " + m.CountStacje(param[0]).ToString() + "\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Błąd skladni");
+                            }
+                            break;
+
+                        case "cntp":
+                            if (param != null && param.Count() == 1)
+                            {
+                                Console.WriteLine("Liczba pętli o krawędziach " + param[0] + " = " + m.CountPetle(param[0]).ToString() + "\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Błąd skladni");
+                            }
+                            break;
+
                         case "newweb":
                             if (param == null || param.Count() == 0)
                             {
-                                Siec s = new Siec(m, r, 3);
+                                Siec s = new Siec(m, r, 6);
                                 Console.WriteLine(s);
                                 // Wyk kraw.
                                 Dictionary<Krawedz, List<int>> wyk = s.GetWykorzystaneKrawedzie();
