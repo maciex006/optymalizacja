@@ -25,11 +25,32 @@ namespace Model
 
         public void Run()
         {
+            int COUNTER_INIT_VALUE = 150;
             InitPopulacja();
-            while(true)
+            Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
+
+            int counter = COUNTER_INIT_VALUE;
+            Siec najlepsza = Populacja[0];
+            double maxValue = Populacja[0].Koszt;
+
+            while(counter > 0)
             {
+                if (maxValue < Populacja[0].Koszt)
+                {
+                    counter = COUNTER_INIT_VALUE;
+                    maxValue = Populacja[0].Koszt;
+                    najlepsza = Populacja[0];
+                }
+                else 
+                {
+                    counter--;
+                }
+
                 Sequence();
+                Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
             }
+
+            Console.WriteLine("Najlepsza siec: \n" + najlepsza + ", koszt = " + najlepsza.Koszt);
         }
 
         public string PrintPopulacja()
@@ -47,7 +68,6 @@ namespace Model
 
         private bool Sequence()
         {
-            Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
             using (StreamWriter sw = new StreamWriter("D:\\wykres.txt", true))
             {
                 sw.WriteLine(Populacja[0].Koszt);
@@ -56,12 +76,13 @@ namespace Model
 
             Console.WriteLine(PrintPopulacja());
 
-            Console.ReadKey();
+            //Console.ReadKey();
             List<Siec> temp = Selekcja();
             //Console.WriteLine( "{" + string.Join("\n", temp.OrderByDescending(x => x.Koszt).Select(x => "Osobnik " + x.Id + " ; Koszt = " + x.Koszt)) + "}");
             List<Siec> nowaPopulacja = Krzyzowanie(temp);
             if (nowaPopulacja != null)
             {
+                Mutacja(nowaPopulacja);
                 Populacja = nowaPopulacja;
                 return true;
             }
@@ -69,6 +90,24 @@ namespace Model
             {
                 return false;
             }
+        }
+
+        private void Mutacja(List<Siec> populacja)
+        {
+            int prawdMutacji = 25;
+            int lMutacji = 0;
+
+            foreach (Siec s in populacja)
+            {
+                if (NextWithProbability(prawdMutacji))
+                {
+                    lMutacji++;
+                    s.Mutuj();
+                    s.PrzeliczKoszt();
+                }
+            }
+
+            Console.WriteLine("Liczba mutacji: " + lMutacji);
         }
 
         private List<Siec> Krzyzowanie(List<Siec> populacja)

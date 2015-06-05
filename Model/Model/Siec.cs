@@ -37,6 +37,20 @@ namespace Model
             return Random.Next(LiczbaLinii - 2) + 1;
         }
 
+        public void Mutuj()
+        {
+            int rand = Random.Next(LiczbaLinii);
+            Linie.Remove(Linie[rand]);
+            Linie.Add(new Linia(rand, Model, Random));
+        }
+
+        public void PrzeliczKoszt()
+        {
+            WyznaczWykorzsytaneKrawedzie();
+            WyznaczPolaczenia();
+            WyznaczFunkcjeKosztu();
+        }
+
         // Operator krzyżowania
         public static Siec operator +(Siec s1, Siec s2)
         {
