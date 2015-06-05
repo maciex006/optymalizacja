@@ -88,6 +88,11 @@ namespace Model
 
             List<Stacja> stacje = Model.GetStacje();
 
+            foreach (Linia l in Linie)
+            {
+                l.Koszt = 0;
+            }
+
             // Tymczasowe
             bool temp = true;
             // Tymczasowe
