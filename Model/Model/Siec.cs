@@ -8,6 +8,7 @@ namespace Model
 {
     class Siec
     {
+        public int Id;
         private List<Linia> Linie = new List<Linia>();
         private Model Model;
         private Random Random;
@@ -15,13 +16,40 @@ namespace Model
         private Dictionary<Krawedz, List<int>> WykorzystaneKrawedzie = new Dictionary<Krawedz, List<int>>();
         private List<Polaczenie> WyznaczonePolaczenia = new List<Polaczenie>();
         public double Koszt { get; set; }
+        //Tymczasowe do debugu
+        public int WykorzystanePrzystanki { get; set; }
 
-        public Siec(Model m, Random r, int liczbaLinii)
+        public Siec(int Id, Model m, Random r, int liczbaLinii)
         {
+            this.Id = Id;
+            WykorzystanePrzystanki = 1;
             this.Model = m;
             this.Random = r;
             this.LiczbaLinii = liczbaLinii;
             GenerujSiec();
+        }
+
+        public int LosujPrzeciecie()
+        {
+            return Random.Next(LiczbaLinii - 2) + 1;
+        }
+
+        // Operator krzyżowania
+        public static Siec operator +(Siec s1, Siec s2)
+        {
+            if (s1.LiczbaLinii == s2.LiczbaLinii)
+            {
+                int przeciecie = s1.LosujPrzeciecie();
+                Siec s = new Siec(0, s1.Model, s1.Random, s1.LiczbaLinii);
+                s.Linie = new List<Linia>();
+                s.Linie.AddRange(s1.Linie.Where(x => x.Id < przeciecie));
+                s.Linie.AddRange(s2.Linie.Where(x => x.Id >= przeciecie));
+                return s;
+            }
+            else
+            {
+                return null;
+            }           
         }
 
         private void GenerujSiec()
@@ -53,6 +81,10 @@ namespace Model
 
             List<Stacja> stacje = Model.GetStacje();
 
+            // Tymczasowe
+            bool temp = true;
+            // Tymczasowe
+
             foreach (Stacja s in stacje)
             {
                 //.Where(x => !x.Value.CheckIfNull()).ToDictionary(x => x.Key, x => x.Value)
@@ -68,6 +100,11 @@ namespace Model
                             int[] key = (s.Id < cel.Id ? new int[2] { s.Id, cel.Id } : new int[2] { cel.Id, s.Id });
                             if (WyznaczonePolaczenia.Any(x => x.Id[0] == key[0] && x.Id[1] == key[1]))
                             {
+
+                                // Tymczasowe
+                                if(temp) WykorzystanePrzystanki++;
+                                // Tymczasowe
+
                                 Polaczenie p = WyznaczonePolaczenia.First(x => x.Id[0] == key[0] && x.Id[1] == key[1]);
                                 //Implementacja dla t = 1!
                                 double liczbaPasazerow = r.GetLiczbaPasazerow();
@@ -85,6 +122,10 @@ namespace Model
                         }
                     }
                 }
+
+                // Tymczasowe
+                temp = false;
+                // Tymczasowe
             }
 
             Koszt = Linie.Sum(x => x.Koszt);

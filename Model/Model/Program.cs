@@ -10,9 +10,10 @@ namespace Model
     {
         static void Main(string[] args)
         {
-            int n = 30; // liczba przystanków
+            int n = 15; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
-            int p = 7; // liczba petli.
+            int p = 4; // liczba petli.
+            int l = 3; // liczba linii.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);
@@ -109,7 +110,7 @@ namespace Model
                         case "newweb":
                             if (param == null || param.Count() == 0)
                             {
-                                Siec s = new Siec(m, r, 5);
+                                Siec s = new Siec(1, m, r, l);
                                 Console.WriteLine(s);
                                 // Wyk kraw.
                                 Dictionary<Krawedz, List<int>> wyk = s.GetWykorzystaneKrawedzie();
@@ -123,7 +124,19 @@ namespace Model
                                 Console.WriteLine();
                                 Console.WriteLine(s.PrintKoszt());
                                 Console.WriteLine();
+                                Console.WriteLine("Wykorzystane przystanki: " + s.WykorzystanePrzystanki + "/" + m.GetStacje().Count() + "\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Błąd skladni");
+                            }
+                            break;
 
+                        case "run":
+                            if (param == null || param.Count() == 0)
+                            {
+                                AlgorytmEwolucyjny alg = new AlgorytmEwolucyjny(m, r, l, 10);
+                                alg.Run();
                             }
                             else
                             {
