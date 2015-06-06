@@ -34,7 +34,14 @@ namespace Model
                             if (param == null || param.Count() == 0)
                             {
                                 m = new Model(r);
-                                m.Wczytaj(filePath);
+                                if (m.Wczytaj(filePath))
+                                {
+                                    Console.WriteLine("Wczytano model z pliku.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Błędna składnia pliku. Nie udało się wczytać.");
+                                }
                             }
                             else
                             {

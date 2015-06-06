@@ -21,7 +21,20 @@ namespace Model
         public bool Wczytaj(string path)
         {
             //"@D:\konf.txt"
-            string[] lines = File.ReadAllLines(path);
+            List<string> lines = File.ReadAllLines(path).ToList();
+            for (int n = 0; n < lines.Count(); n++)
+            {
+                if (lines[n].StartsWith("+") || 
+                    lines[n] == String.Empty || 
+                    lines[n] == "" || 
+                    lines[n] == " " || 
+                    lines[n] == "\n")
+                {
+                    lines.Remove(lines[n]);
+                    n--;
+                }
+            }
+
             int liczbaStacji;
             Int32.TryParse(lines[0], out liczbaStacji);
 
@@ -31,13 +44,13 @@ namespace Model
             }
 
             int k = 0;
-            for (int i = 1; i < lines.Length; i = i + 3)
+            for (int i = 1; i < lines.Count(); i = i + 3)
             {
                 //Id
                 string[] Sid = lines[i].Split(new char[] { '#' });
                 int id;
                 Int32.TryParse(Sid[1], out id);
-                if( id == null) return false;
+                if(id == null) return false;
 
                 //Czy petla
                 if (Sid.Length > 2)
