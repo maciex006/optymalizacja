@@ -14,7 +14,7 @@ namespace Model
             int n = 50; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
             int p = 14; // liczba petli.
-            int l = 2; // liczba linii.
+            int l = 3; // liczba linii.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);

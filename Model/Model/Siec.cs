@@ -14,6 +14,7 @@ namespace Model
         private Random Random;
         private int LiczbaLinii;
         private Dictionary<Krawedz, List<int>> WykorzystaneKrawedzie = new Dictionary<Krawedz, List<int>>();
+        private HashSet<Stacja> NiewykorzystaneStacje = new HashSet<Stacja>();
         private List<Polaczenie> WyznaczonePolaczenia = new List<Polaczenie>();
         public double Koszt { get; set; }
         //Tymczasowe do debugu
@@ -42,7 +43,7 @@ namespace Model
             List<Linia> temp = new List<Linia>();
             temp.AddRange(Linie);
             double koszt = Koszt;
-            for (int i = 0; i < Random.Next(LiczbaLinii/2); i++)
+            for (int i = 0; i <= Random.Next(LiczbaLinii/2); i++)
             {
                 int rand = Random.Next(LiczbaLinii);
                 Linie.Remove(Linie[rand]);
@@ -51,11 +52,11 @@ namespace Model
             
             PrzeliczKoszt();
 
-            //if (Koszt < koszt)
-            //{
-            //    Linie = temp;
-            //    PrzeliczKoszt();
-            //}
+            if (Koszt < koszt)
+            {
+                Linie = temp;
+                PrzeliczKoszt();
+            }
         }
 
         public void PrzeliczKoszt()
@@ -168,7 +169,31 @@ namespace Model
                 // Tymczasowe
             }
 
-            Koszt = Linie.Sum(x => x.Koszt)/LiczbaLinii;
+            stacje.ForEach((item) =>
+                {
+                    NiewykorzystaneStacje.Add(item);
+                });
+
+            foreach (Krawedz k in WykorzystaneKrawedzie.Keys)
+            {
+                if(NiewykorzystaneStacje.Contains(k.Stacja1))
+                {
+                    NiewykorzystaneStacje.Remove(k.Stacja1);
+                }
+
+                if (NiewykorzystaneStacje.Contains(k.Stacja2))
+                {
+                    NiewykorzystaneStacje.Remove(k.Stacja2);
+                }              
+            }
+
+            Koszt = Linie.Sum(x => x.Koszt) / LiczbaLinii;
+
+            foreach (Stacja s in NiewykorzystaneStacje)
+            {
+                int penalty = s.GetRuch().Values.Sum(x => x.GetSumaRuchu());
+                Koszt = Koszt - (s.IsPetla ? penalty*10 : penalty);
+            }
         }
 
         private void WyznaczWykorzsytaneKrawedzie()

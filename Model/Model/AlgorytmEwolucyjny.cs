@@ -25,7 +25,7 @@ namespace Model
 
         public void Run()
         {
-            int COUNTER_INIT_VALUE = 150;
+            int COUNTER_INIT_VALUE = 1500;
             InitPopulacja();
             Populacja = Populacja.OrderByDescending(x => x.Koszt).ToList();
 
@@ -94,7 +94,7 @@ namespace Model
 
         private void Mutacja(List<Siec> populacja)
         {
-            int prawdMutacji = 100;
+            int prawdMutacji = 50;
             int lMutacji = 0;
 
             foreach (Siec s in populacja)

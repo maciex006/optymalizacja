@@ -66,7 +66,7 @@ namespace Model
                 if(Sruch[0] != "r") return false;
 
                 int[] ruch = new int[liczbaStacji];
-                for(int j = 1; j < Sruch.Length; j++)
+                for (int j = 1; j < ruch.Length; j++)
                 {
                     int lPas;
                     Int32.TryParse(Sruch[j], out lPas);

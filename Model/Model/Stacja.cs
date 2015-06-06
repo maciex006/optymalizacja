@@ -205,6 +205,17 @@ namespace Model
             }
         }
 
+        public int GetSumaRuchu()
+        {
+            int suma = 0;
+            foreach (int r in Ruch)
+            {
+                suma = suma + r;
+            }
+
+            return suma;
+        }
+
         //Inicjalizacaja na podstawie pliku.
         //Tylko dla jednego interwału czasowego.
         public MacierzRuchu(int ruch)
