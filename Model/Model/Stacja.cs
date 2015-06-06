@@ -67,7 +67,7 @@ namespace Model
                 Stacja s = stacje.First(x => x.Id == ranNum);
                 if (s.GetIncydentneKrawedzie().Count() < MAX_LICZ_KRAW)
                 {
-                    krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(8)+2));
+                    krawedzie.Add(new Krawedz(i + 10 * ranNum, st, s, r.Next(5)+2));
                 }
             }
 

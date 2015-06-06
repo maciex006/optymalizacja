@@ -11,10 +11,10 @@ namespace Model
         static void Main(string[] args)
         {
             string filePath = "D:\\konfig.txt"; // ścieżka do pliku z modelem.
-            int n = 50; // liczba przystanków
+            int n = 35; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
-            int p = 14; // liczba petli.
-            int l = 3; // liczba linii.
+            int p = 10; // liczba petli.
+            int l = 2; // liczba linii.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);

@@ -94,7 +94,7 @@ namespace Model
 
         private void Mutacja(List<Siec> populacja)
         {
-            int prawdMutacji = 50;
+            int prawdMutacji = 30;
             int lMutacji = 0;
 
             foreach (Siec s in populacja)
@@ -154,7 +154,7 @@ namespace Model
 
             for (int k = 0; k < LiczebnoscPop; k++)
             {
-                int wylosWart = Random.Next(975);
+                int wylosWart = Random.Next(1075) - 100;
                 selectedPop.Add(Populacja[LosujKopie(prawd, wylosWart)]);
             }
 

@@ -72,11 +72,28 @@ namespace Model
             if (s1.LiczbaLinii == s2.LiczbaLinii)
             {
                 int przeciecie = s1.LosujPrzeciecie();
+                //int przeciecie = (int)(s1.Koszt > s2.Koszt ? (s1.Koszt / s2.Koszt) : (s2.Koszt / s1.Koszt))* (s1.Linie.Count());
                 Siec s = new Siec(0, s1.Model, s1.Random, s1.LiczbaLinii, generuj: false);
 
+                //Porownaj
+                List<int> l1 = s1.Linie.Select(x => x.GetUniqueCode()).ToList();
+                List<int> l2 = s2.Linie.Select(x => x.GetUniqueCode()).ToList();
+                double stP = (double)l1.Intersect(l2).Count() / (double)s1.Linie.Count() * 1000;
+                int stPokrewienstwa = (int)stP;
+                //Console.WriteLine(stPokrewienstwa);
+
                 s.Linie = new List<Linia>();
-                s.Linie.AddRange(s1.Linie.OrderByDescending(x => x.Koszt).Take(przeciecie));
-                s.Linie.AddRange(s2.Linie.OrderByDescending(x => x.Koszt).Skip(przeciecie).Take(s2.Linie.Count() - przeciecie));
+                //s.Linie.AddRange(s1.Linie.OrderByDescending(x => x.Koszt).Take(przeciecie));
+                //s.Linie.AddRange(s2.Linie.OrderByDescending(x => x.Koszt).Skip(przeciecie).Take(s2.Linie.Count() - przeciecie));
+                s.Linie.AddRange(s1.Linie.Take(przeciecie));
+                s.Linie.AddRange(s2.Linie.Skip(przeciecie).Take(s2.Linie.Count() - przeciecie));
+
+                //Im bardziej podobne tym większe prawdopodobieństwo mutacji.
+                if (s.NextWithProbability(stPokrewienstwa))
+                {
+                    s.Mutuj();
+                }
+
                 s.WyznaczWykorzsytaneKrawedzie();
                 s.WyznaczPolaczenia();
                 s.WyznaczFunkcjeKosztu();
@@ -86,6 +103,12 @@ namespace Model
             {
                 return null;
             }           
+        }
+
+        private bool NextWithProbability(int prawd)
+        {
+            int x = Random.Next(1000);
+            return (x <= prawd);
         }
 
         private void GenerujSiec()
@@ -192,7 +215,7 @@ namespace Model
             foreach (Stacja s in NiewykorzystaneStacje)
             {
                 int penalty = s.GetRuch().Values.Sum(x => x.GetSumaRuchu());
-                Koszt = Koszt - (s.IsPetla ? penalty*10 : penalty);
+                Koszt = Koszt - (s.IsPetla ? penalty*100 : penalty);
             }
         }
 

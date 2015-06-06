@@ -14,6 +14,18 @@ namespace Model
         private Random Random;
         public double Koszt { get; set; }
 
+
+        public int GetUniqueCode()
+        {
+            int code = 0;
+            foreach (ElementModelu e in Line)
+            {
+                code += e.Id;
+            }
+
+            return code;
+        }
+
         public Linia(int id, Model m, Random r)
         {
             this.Id = id;
@@ -23,7 +35,7 @@ namespace Model
             while (!generated)
             {
                 generated = GenerujNowaLinie();
-            }            
+            }
         }
 
         private bool GenerujNowaLinie()
