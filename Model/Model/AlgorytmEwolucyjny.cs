@@ -94,7 +94,7 @@ namespace Model
 
         private void Mutacja(List<Siec> populacja)
         {
-            int prawdMutacji = 25;
+            int prawdMutacji = 100;
             int lMutacji = 0;
 
             foreach (Siec s in populacja)
@@ -103,7 +103,6 @@ namespace Model
                 {
                     lMutacji++;
                     s.Mutuj();
-                    s.PrzeliczKoszt();
                 }
             }
 
@@ -141,7 +140,7 @@ namespace Model
             double sumaKosztu = 0;
             foreach(Siec s in Populacja)
             {
-                double wyskalowanyKoszt = kosztNajgorszego < 0 ? s.Koszt - kosztNajgorszego : s.Koszt;
+                double wyskalowanyKoszt = s.Koszt - kosztNajgorszego + 1;
                 sumaKosztu = sumaKosztu + wyskalowanyKoszt;
                 prawd.Add(wyskalowanyKoszt);
             }

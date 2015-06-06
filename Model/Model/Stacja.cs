@@ -174,6 +174,18 @@ namespace Model
             int x = Random.Next(1000);
             return (x <= prawd);
         }
+
+        // Inicjalizacja modelu z pliku.
+        public void InitRuch(List<Stacja> stacje, int[] ruch)
+        {
+            for(int i = 0; i < ruch.Length ; i ++)
+            {
+                if (this.Id != stacje[i].Id)
+                {
+                    Ruch.Add(stacje[i], new MacierzRuchu(ruch[i]));
+                }
+            }
+        }
     }
 
     public class MacierzRuchu
@@ -191,6 +203,14 @@ namespace Model
             {
                 Ruch.Add(r.Next(13));
             }
+        }
+
+        //Inicjalizacaja na podstawie pliku.
+        //Tylko dla jednego interwału czasowego.
+        public MacierzRuchu(int ruch)
+        {
+            Ruch = new List<int>();
+            Ruch.Add(ruch);
         }
 
         //Implementacja dla t = 1;

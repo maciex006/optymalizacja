@@ -10,10 +10,11 @@ namespace Model
     {
         static void Main(string[] args)
         {
+            string filePath = "D:\\konfig.txt"; // ścieżka do pliku z modelem.
             int n = 50; // liczba przystanków
             int t = 1; // liczba interwalów czasowych.
             int p = 14; // liczba petli.
-            int l = 7; // liczba linii.
+            int l = 2; // liczba linii.
             Random r = new Random();
             Model m = new Model(r);
             m.Generuj(n, t, p);
@@ -29,6 +30,18 @@ namespace Model
                 {
                     switch (txtCommand)
                     {
+                        case "load":
+                            if (param == null || param.Count() == 0)
+                            {
+                                m = new Model(r);
+                                m.Wczytaj(filePath);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Błąd skladni");
+                            }
+                            break;
+
                         case "inc":
                             if (param != null && param.Count() == 1)
                             {

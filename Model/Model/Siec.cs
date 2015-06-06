@@ -39,9 +39,23 @@ namespace Model
 
         public void Mutuj()
         {
-            int rand = Random.Next(LiczbaLinii);
-            Linie.Remove(Linie[rand]);
-            Linie.Add(new Linia(rand, Model, Random));
+            List<Linia> temp = new List<Linia>();
+            temp.AddRange(Linie);
+            double koszt = Koszt;
+            for (int i = 0; i < Random.Next(LiczbaLinii/2); i++)
+            {
+                int rand = Random.Next(LiczbaLinii);
+                Linie.Remove(Linie[rand]);
+                Linie.Add(new Linia(rand, Model, Random));
+            }
+            
+            PrzeliczKoszt();
+
+            //if (Koszt < koszt)
+            //{
+            //    Linie = temp;
+            //    PrzeliczKoszt();
+            //}
         }
 
         public void PrzeliczKoszt()
@@ -154,7 +168,7 @@ namespace Model
                 // Tymczasowe
             }
 
-            Koszt = Linie.Sum(x => x.Koszt);
+            Koszt = Linie.Sum(x => x.Koszt)/LiczbaLinii;
         }
 
         private void WyznaczWykorzsytaneKrawedzie()
